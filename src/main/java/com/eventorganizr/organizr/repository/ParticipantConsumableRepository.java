@@ -3,6 +3,7 @@ package com.eventorganizr.organizr.repository;
 import com.eventorganizr.organizr.entity.Consumable;
 import com.eventorganizr.organizr.entity.Participant;
 import com.eventorganizr.organizr.entity.ParticipantConsumable;
+import com.eventorganizr.organizr.entity.compositeKeys.ParticipantConsumablesKey;
 import com.eventorganizr.organizr.entity.compositeKeys.ParticipantKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,6 +17,8 @@ public interface ParticipantConsumableRepository extends JpaRepository<Participa
     List<ParticipantConsumable> findByParticipant_ParticipantId(ParticipantKey participant_participantId);
 
     List<ParticipantConsumable> findByParticipantAndConsumable_ConsumableType(Participant participant, String consumable_consumableType);
+
+    void deleteParticipantConsumableByParticipantConsumablesId(ParticipantConsumablesKey participantConsumablesKey);
 
     void deleteAllByParticipant_ParticipantId(ParticipantKey participant_participantId);
 

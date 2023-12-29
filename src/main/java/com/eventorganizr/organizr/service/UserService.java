@@ -5,7 +5,6 @@ import com.eventorganizr.organizr.entity.User;
 import com.eventorganizr.organizr.exception.RecordNotFoundException;
 import com.eventorganizr.organizr.repository.UserRepository;
 import lombok.Data;
-import lombok.extern.log4j.Log4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

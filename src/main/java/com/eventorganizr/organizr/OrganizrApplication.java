@@ -1,7 +1,9 @@
 package com.eventorganizr.organizr;
 
 import com.eventorganizr.organizr.service.*;
+import com.eventorganizr.organizr.views.accessViews.LogInView;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,13 +19,13 @@ public class OrganizrApplication extends SpringBootServletInitializer implements
 	public static void main(String[] args) {
 		SpringApplication.run(OrganizrApplication.class, args);
 	}
-	@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-	public class Application {
-		public static void main(String[] args) {
-			SpringApplication.run(OrganizrApplication.class, args);
-
-		}
-	}
+//	@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+//	public class Application {
+//		public static void main(String[] args) {
+//			SpringApplication.run(OrganizrApplication.class, args);
+//
+//		}
+//	}
 
 	// Just for insertion purposes only
 	@Bean

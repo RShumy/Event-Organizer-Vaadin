@@ -10,17 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
-@Data
+
 public class UserPrincipalDetails implements UserDetails {
-    User user;
+    private final User user;
 
     UserPrincipalDetails(User user){
         this.user = user;
-        // Delete after
-        System.out.println(
-                "From User Details :" + user.getUserName() +
-                        "\n" + "Authorities: " + getAuthorities()
-        );
     }
 
     @Override

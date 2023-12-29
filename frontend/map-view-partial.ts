@@ -1,22 +1,30 @@
 //Bing Sign up and Generate an API Key: https://www.bingmapsportal.com/
-//Still need to work on a solution to make this display the correct Map on the next Events selections
 
 // Create file API-key.ts here in frontend folder with the uncommented lines below:
 // const APIkey: string = "The-Bing-Maps-APIkey";
 // export default APIkey;
-import APIkey from "./API-key.ts";
-import 'bingmaps';
-import {waitUntil} from "workbox-core/_private";
-var map , searchManager;
-var mapsApiUrl = "https://www.bing.com/api/maps/mapcontrol?callback=GetMap";
-var locationString;
+import APIkey from "./API-key";
+import SearchManager = Microsoft.Maps.Search.SearchManager;
+declare global { interface Window {GetMap : any, ShowMap : any }}
+
+
+// import {waitUntil} from "workbox-core/_private";
+
+// var map , searchManager;
+// var mapsApiUrl = "https://www.bing.com/api/maps/mapcontrol?callback=GetMap";
+// var locationString;
+var map : Microsoft.Maps.Map, searchManager : SearchManager;
+var mapsApiUrl : string = "https://www.bing.com/api/maps/mapcontrol?callback=GetMap";
+var locationString : string;
 
 window.GetMap = async function getMap() {
 
 
-    map = await new Microsoft.Maps.Map(document.getElementById('myMap'), {
-        credentials : APIkey
-    });
+    // @ts-ignore
+    map = await new Microsoft.Maps.Map(document.getElementById('myMap'),
+        {
+            credentials: APIkey
+        });
 
 
 
@@ -28,7 +36,7 @@ window.GetMap = async function getMap() {
     await geocodeQuery(locationString);
 }
 
-function geocodeQuery(query) {
+function geocodeQuery(query : string) {
     //If search manager is not defined, load the search module.
     if (!searchManager) {
         //Create an instance of the search manager and call the geocodeQuery function again.
@@ -40,7 +48,7 @@ function geocodeQuery(query) {
     } else {
         var searchRequest = {
             where: query,
-            callback: function (r) {
+            callback: function (r? : any) {
                 //Add the first result to the map and zoom into it.
                 if (r && r.results && r.results.length > 0) {
                     var pin = new Microsoft.Maps.Pushpin(r.results[0].location);
@@ -49,7 +57,7 @@ function geocodeQuery(query) {
                     map.setView({ bounds: r.results[0].bestView });
                 }
             },
-            errorCallback: function (e) {
+            errorCallback: function (e : any) {
                 //If there is an error, alert the user about it.
                 alert("No results found.");
             }
@@ -61,7 +69,7 @@ function geocodeQuery(query) {
     }
 }
 
-window.ShowMap = function showMap(location){
+window.ShowMap = function showMap(location: string){
     var scripts = document.querySelectorAll(".map-per-request");
     if (scripts.length === 0){
     // scripts.forEach(scrp => {if(scrp.parentElement!=null) scrp.parentElement.removeChild(scrp)});
@@ -76,7 +84,7 @@ window.ShowMap = function showMap(location){
         script.defer = true;
         script.src = mapsApiUrl;
 
-        script.onload = GetMap;
+        script.onload = window.GetMap;
 
         head.appendChild(script);
     }

@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Element;
 
-@JsModule("./map-view-partial.js")
+@JsModule("./map-view-partial.ts")
 public class MapView extends VerticalLayout {
     public Div mapView = new Div();
 

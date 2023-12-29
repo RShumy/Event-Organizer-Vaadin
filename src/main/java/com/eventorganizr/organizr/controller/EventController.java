@@ -4,12 +4,11 @@ import com.eventorganizr.organizr.entity.Consumable;
 import com.eventorganizr.organizr.entity.Event;
 import com.eventorganizr.organizr.entity.Participant;
 import com.eventorganizr.organizr.entity.User;
-import com.eventorganizr.organizr.entity.compositeKeys.EventConsumableKey;
+import com.eventorganizr.organizr.entity.compositeKeys.EventConsumablesKey;
 import com.eventorganizr.organizr.entity.compositeKeys.ParticipantKey;
 import com.eventorganizr.organizr.service.ConsumableService;
 import com.eventorganizr.organizr.service.EventService;
 import com.eventorganizr.organizr.service.ParticipantService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,14 +59,14 @@ public class EventController {
     }
 
     @PutMapping(path ="addConsumable")
-    public void addConsumable(@RequestBody EventConsumableKey eventConsumable){
+    public void addConsumable(@RequestBody EventConsumablesKey eventConsumable){
         Event event = eventService.findEvent(eventConsumable.eventId());
         event.addConsumable(consumableService.findConsumable(eventConsumable.consumableId()));
         eventService.updateEvent(event.getEventId(), event);
     }
 
     @DeleteMapping(path = "removeConsumable")
-    public void removeConsumable(@RequestBody EventConsumableKey eventConsumable){
+    public void removeConsumable(@RequestBody EventConsumablesKey eventConsumable){
         Event event = eventService.findEvent(eventConsumable.eventId());
         event.removeConsumable(consumableService.findConsumable(eventConsumable.consumableId()));
         eventService.updateEvent(event.getEventId(), event);
@@ -97,12 +96,13 @@ public class EventController {
         participantService.deleteById(participantId);
     }
 
-    @GetMapping(path = "consumables")
-    public List<Consumable> getAllConsumables(){
-        return consumableService.getConsumables();
+    //EventConsumables
+    @GetMapping(path = "{eventId}/consumables")
+    public List<Consumable> getAllConsumables(@PathVariable Long eventId){
+        return eventService.getConsumablesAtEvent(eventId);
     }
 
-    @GetMapping(path = "ConsumableById")
+    @GetMapping(path = "consumableById")
     public Consumable findConsumableById(Long id){
         return consumableService.findConsumable(id);
     }

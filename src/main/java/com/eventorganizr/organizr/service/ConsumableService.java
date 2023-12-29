@@ -52,6 +52,10 @@ public class ConsumableService {
         consumableRepository.save(consumableToUpdate);
     }
 
+    public List<Consumable> searchByNameContains(String nameContains){
+        return consumableRepository.searchConsumablesByNameContains(nameContains);
+    }
+
     public void delete(Long id){
         boolean existsById = consumableRepository.existsById(id);
         if (!existsById) throw new RecordNotFoundException();

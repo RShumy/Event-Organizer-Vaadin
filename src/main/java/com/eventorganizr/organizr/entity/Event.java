@@ -29,23 +29,15 @@ public class Event {
     private String eventDescription;
 
     private Long createdByUserId;
-    /*
-    @OneToMany CascadeType.REMOVE triggers JPA Repository to call delete(participant) from Many-To-Many table of the Data Base
-    In User entity the CascadeType can remain as .ALL
-    Failed Cases tried before:
-    - FetchType has no influence on the behaviour
-    - CascadeType.PERSIST
-    - Applied the same change to the Set of participants from User and reverted here to CascadeType.ALL, JPA Repository will not call the delete function
-        Cannot pinpoint why the reverted set-up won't work, because the JoinedTable is set up symmetrically in both entities.
-    */
 
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @Column(nullable = false)
     @JsonManagedReference(value = "participants")
     private Set<Participant> participants;
 
 
-    @ManyToMany(targetEntity = Consumable.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Consumable.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(
             name = "event_consumables",
             joinColumns = { @JoinColumn(name = "event_id", insertable = true, updatable = true) },
@@ -72,4 +64,13 @@ public class Event {
         this.createdByUserId = createdByUserId;
     }
 
+    public Event(Long eventId, String eventName, LocalDateTime eventBeginDate, LocalDateTime eventEndDate, String locationQueryString, String eventDescription, Long createdByUserId) {
+        this.eventId = eventId;
+        this.eventName = eventName;
+        this.eventBeginDate = eventBeginDate;
+        this.eventEndDate = eventEndDate;
+        this.locationQueryString = locationQueryString;
+        this.eventDescription = eventDescription;
+        this.createdByUserId = createdByUserId;
+    }
 }

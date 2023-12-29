@@ -23,7 +23,7 @@ public class Participant {
     @JsonBackReference(value = "event")
     private Event event;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     @JsonBackReference(value = "user")

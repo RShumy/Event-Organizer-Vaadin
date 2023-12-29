@@ -1,5 +1,6 @@
 package com.eventorganizr.organizr.service;
 
+import com.eventorganizr.organizr.entity.Consumable;
 import com.eventorganizr.organizr.entity.Event;
 import com.eventorganizr.organizr.exception.RecordNotFoundException;
 import com.eventorganizr.organizr.repository.EventRepository;
@@ -58,6 +59,10 @@ public class EventService {
         catch (RecordNotFoundException e){
             e.printStackTrace();
         }
+    }
+
+    public List<Consumable> getConsumablesAtEvent(Long eventId){
+        return eventRepository.getConsumableAtEvent(eventId);
     }
 
 }

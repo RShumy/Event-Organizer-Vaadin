@@ -3,6 +3,7 @@ package com.eventorganizr.organizr.service;
 import com.eventorganizr.organizr.entity.Consumable;
 import com.eventorganizr.organizr.entity.Participant;
 import com.eventorganizr.organizr.entity.ParticipantConsumable;
+import com.eventorganizr.organizr.entity.compositeKeys.ParticipantConsumablesKey;
 import com.eventorganizr.organizr.repository.ParticipantConsumableRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,11 @@ public class ParticipantConsumableService {
 
     public void addConsumableToParticipant(Consumable consumable, Participant participant){
         participantService.findParticipantById(participant.getParticipantId());
+    }
+
+    public void removeConsumableForParticipant(Consumable consumable, Participant participant){
+        ParticipantConsumablesKey key = new ParticipantConsumablesKey(consumable.getConsumableId(), participant.getParticipantId());
+        participantConsumableRepository.deleteParticipantConsumableByParticipantConsumablesId(key);
     }
 
 }

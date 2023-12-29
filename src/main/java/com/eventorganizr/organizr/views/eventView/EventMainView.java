@@ -12,8 +12,9 @@ import com.vaadin.flow.router.Route;
 
 import javax.annotation.security.PermitAll;
 import java.util.Optional;
+
 @PermitAll
-@Route(value = ""
+@Route(value = "/"
         , layout = MainPage.class
 )
 public class EventMainView extends VerticalLayout {

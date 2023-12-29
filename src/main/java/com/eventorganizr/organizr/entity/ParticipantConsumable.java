@@ -1,7 +1,6 @@
 package com.eventorganizr.organizr.entity;
 
 import com.eventorganizr.organizr.entity.compositeKeys.ParticipantConsumablesKey;
-import com.eventorganizr.organizr.entity.compositeKeys.ParticipantKey;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 public class ParticipantConsumable {
 
     @EmbeddedId
-    private ParticipantConsumablesKey ParticipantConsumablesId;
+    private ParticipantConsumablesKey participantConsumablesId;
 
 
     @ManyToOne
@@ -29,14 +28,8 @@ public class ParticipantConsumable {
     @JsonBackReference
     private Consumable consumable;
 
-    public ParticipantConsumable(ParticipantConsumablesKey participantConsumablesId, Participant participant, Consumable consumable) {
-        ParticipantConsumablesId = participantConsumablesId;
-        this.participant = participant;
-        this.consumable = consumable;
-    }
-
     public ParticipantConsumable(Participant participant, Consumable consumable){
-        ParticipantConsumablesId = new ParticipantConsumablesKey(consumable.getConsumableId(), participant.getParticipantId());
+        participantConsumablesId = new ParticipantConsumablesKey(consumable.getConsumableId(), participant.getParticipantId());
         this.participant = participant;
         this.consumable = consumable;
     }
@@ -44,11 +37,11 @@ public class ParticipantConsumable {
     public ParticipantConsumable() {}
 
     public ParticipantConsumablesKey getParticipantConsumablesId() {
-        return ParticipantConsumablesId;
+        return participantConsumablesId;
     }
 
     public void setParticipantConsumablesId(ParticipantConsumablesKey participantConsumablesId) {
-        ParticipantConsumablesId = participantConsumablesId;
+        this.participantConsumablesId = participantConsumablesId;
     }
 
     public Participant getParticipant() {
