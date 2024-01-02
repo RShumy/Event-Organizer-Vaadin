@@ -9,8 +9,10 @@ import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinServletResponse;
 
 import javax.annotation.security.PermitAll;
+import java.io.IOException;
 import java.util.Optional;
 
 @PermitAll
@@ -34,7 +36,7 @@ public class EventMainView extends VerticalLayout {
 
     public EventMainView(EventService eventService
             , SecurityService securityService
-    ){
+    ) throws IOException {
         this.securityService = securityService;
         this.eventService = eventService;
         this.navView = new NavView(securityService);
@@ -47,6 +49,11 @@ public class EventMainView extends VerticalLayout {
         setSizeFull();
 
         add(getContent());
+    }
+
+    public void logoutRedirect() throws IOException {
+        if (securityService.getAuthenticatedUser() == null)
+            VaadinServletResponse.getCurrent().sendRedirect("/login");
     }
 
 

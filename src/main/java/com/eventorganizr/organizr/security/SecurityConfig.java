@@ -52,16 +52,6 @@ public class SecurityConfig
     public void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests(auth ->
-                        auth
-
-                                .antMatchers("/VAADIN/**","/h2/**","/image/**","/favicon.ico")
-                                .permitAll()
-                                .antMatchers("/api/**", "/")
-                                .authenticated()
-
-                ).exceptionHandling()
-                .and()
                 .httpBasic()
                 .and()
                 .headers(headers -> headers.frameOptions().sameOrigin())
@@ -71,7 +61,7 @@ public class SecurityConfig
                 .logout((logout) ->
                         logout.deleteCookies("JSESSIONID")
                                 .invalidateHttpSession(true)
-                                .logoutUrl("/logout")
+//                                .logoutUrl("/logout")
                                 .clearAuthentication(true));
         super.configure(httpSecurity);
         setLoginView(httpSecurity, LogInView.class);
@@ -109,7 +99,7 @@ public class SecurityConfig
 
 
 
-    
+
     @Bean
     public static PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder();}
 

@@ -3,6 +3,7 @@ package com.eventorganizr.organizr.security;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinServletResponse;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,7 @@ import java.io.IOException;
 @Component
 public class SecurityService {
 
-    private static final String LOGOUT_URL = "/logout";
+    private static final String LOGOUT_URL = "/login";
 
     private SecurityContext getSecurityContext(){
         return SecurityContextHolder.getContext();
@@ -35,14 +36,15 @@ public class SecurityService {
     }
 
     public void logout() throws IOException {
-        UI.getCurrent().getPage().setLocation(LOGOUT_URL);
+//        UI.getCurrent().getPage().setLocation(LOGOUT_URL);
+        VaadinSession.getCurrent().getSession().invalidate();
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-
         System.out.println("LOGOUT HANDLER IS CALLED");
         logoutHandler.logout(
                 VaadinServletRequest.getCurrent().getHttpServletRequest(),
                 null,
                 getSecurityContext().getAuthentication());
+
         System.out.println(getSecurityContext().getAuthentication());
     }
 

@@ -14,15 +14,19 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import javax.persistence.Column;
 import java.util.Arrays;
 import java.util.Optional;
 
 @Route(value = "sign-up")
+@AnonymousAllowed
+@RouteAlias("register")
 public class RegisterView extends VerticalLayout {
 
-    private UserService userService;
+    private final UserService userService;
 
     private User user;
     Binder<User> userBinder = new BeanValidationBinder<>(User.class);
@@ -32,15 +36,15 @@ public class RegisterView extends VerticalLayout {
     TextField lastName;
     TextField email;
     PasswordField password;
-    PasswordField passwordRepeatCheck;
+    PasswordField passwordRepeatCheck = new PasswordField();
 
     Button submit = new Button("Submit and Register", new Icon(VaadinIcon.PLUS));
 
     public RegisterView(UserService userService){
         this.userService = userService;
         userBinder.bindInstanceFields(this);
+        userBinder.readBean(new User());
         configureRegisterView();
-
     }
 
     private void configureRegisterView() {
@@ -48,7 +52,7 @@ public class RegisterView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         configureSubmitButton();
-        add();
+        add(userName,firstName,lastName, email,password, passwordRepeatCheck);
     }
 
     private void configureSubmitButton() {
@@ -63,6 +67,7 @@ public class RegisterView extends VerticalLayout {
             }
         userService.saveUser(user);
     }
+
 
 
 }
